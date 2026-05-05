@@ -19,7 +19,7 @@ FROM world
 WHERE population > (SELECT population FROM world WHERE name = 'Russia')
 ```
 
-1. Show the countries in Europe with a per capita GDP greater than 'United Kingdom'.
+2. Show the countries in Europe with a per capita GDP greater than 'United Kingdom'.
 ```sql
 SELECT name
 FROM world
@@ -27,7 +27,7 @@ WHERE continent = 'Europe' AND
 	  gdp/population > (SELECT gdp/population FROM world WHERE name = 'United Kingdom')
 ```
 
-1. List the name and continent of countries in the continents containing either Argentina or Australia. Order by name of the country.
+3. List the name and continent of countries in the continents containing either Argentina or Australia. Order by name of the country.
 ```sql
 SELECT name, continent
 FROM world
@@ -35,7 +35,7 @@ WHERE continent IN (SELECT continent FROM world WHERE name IN ('Argentina', 'Aus
 ORDER BY name
 ```
 
-1. Which country has a population that is more than United Kingdom but less than Germany? Show the name and the population.
+4. Which country has a population that is more than United Kingdom but less than Germany? Show the name and the population.
 ```sql
 SELECT name, population
 FROM world
@@ -43,42 +43,42 @@ WHERE population > (SELECT population FROM world WHERE name = 'United Kingdom') 
 	  population < (SELECT population FROM world WHERE name = 'Germany')
 ```
 
-1. Show the name and the population of each country in Europe. Show the population as a percentage of the population of Germany.
+5. Show the name and the population of each country in Europe. Show the population as a percentage of the population of Germany.
 ```sql
 SELECT name, CONCAT(ROUND(100*population/(SELECT population FROM world WHERE name = 'Germany')), '%') percentage
 FROM world
 WHERE continent = 'Europe'
 ```
 
-1. Which countries have a GDP greater than every country in Europe? [Give the name only.] (Some countries may have NULL gdp values)
+6. Which countries have a GDP greater than every country in Europe? [Give the name only.] (Some countries may have NULL gdp values)
 ```sql
 SELECT name
 FROM world
 WHERE gdp > ALL(SELECT gdp FROM world WHERE gdp>0 AND population>0 AND continent = 'Europe')
 ```
 
-1. Find the largest country (by area) in each continent, show the continent, the name and the area:
+7. Find the largest country (by area) in each continent, show the continent, the name and the area:
 ```sql
 SELECT continent, name, area
 FROM world a
 WHERE area >= ALL(SELECT area FROM world b WHERE a.continent = b.continent)
 ```
 
-1. List each continent and the name of the country that comes first alphabetically.
+8. List each continent and the name of the country that comes first alphabetically.
 ```sql
 SELECT continent, name
 FROM world a
 WHERE name <= ALL(SELECT name FROM world b WHERE b.continent = a.continent)
 ```
 
-1. Find the continents where all countries have a population <= 25000000. Then find the names of the countries associated with these continents. Show name, continent and population.
+9. Find the continents where all countries have a population <= 25000000. Then find the names of the countries associated with these continents. Show name, continent and population.
 ```sql
 SELECT name, continent, population
 FROM world a
 WHERE population >= ALL(SELECT population FROM world b WHERE b.continent=a.continent) AND population <= 25000000
 ```
 
-1.  Some countries have populations more than three times that of all of their neighbours (in the same continent). Give the countries and continents.
+10.  Some countries have populations more than three times that of all of their neighbours (in the same continent). Give the countries and continents.
 ```sql
 SELECT name, continent
 FROM world a
